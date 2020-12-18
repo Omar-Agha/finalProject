@@ -3,7 +3,6 @@
 #include<GL/GLU.h>
 
 
-
 double cx = 0;
 double cz = 0;
 double r = 1;
@@ -24,10 +23,15 @@ void drawCoord();
 void initGlut();
 void draw();
 void setLighting();
+void drawGate();
 
 //drawing
 void drawAiuLogo();
+void drawALetter();
+void drawILetter();
+void drawULetter();
 
+GLUquadric* obj = gluNewQuadric();
 
 
 bool enable = true;
@@ -53,12 +57,17 @@ void draw() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	gluLookAt(ex, 0, ez, cxx, 0, czz, 0, 1, 0);
-	glTranslatef(0, 0, -10);
+	glTranslatef(0, 0, -30);
 	
-	GLUquadric* obj = gluNewQuadric();
-
-	
+	glPushMatrix();
 	drawAiuLogo();
+	glPopMatrix();
+	
+
+	glTranslatef(0,0, -30);
+	glPushMatrix();
+	drawGate();
+	glPopMatrix();
 
 	drawCoord();
 	glFlush();
@@ -96,7 +105,7 @@ void drawCoord() {
 void initGlut() {
 	glutInitDisplayMode(GLUT_SINGLE);
 	glShadeModel(GLU_SMOOTH);
-	glClearColor(0.0f, 0.0f, 0.5f, 0.5f);
+	glClearColor(0.68f, 0.85f, 0.9f, 0.5f);
 	glClearDepth(1.0f);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
@@ -211,4 +220,101 @@ void setLighting() {
 
 void drawAiuLogo() {
 
+	glPushMatrix();
+	drawALetter();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(5, 0, 0);
+	drawILetter();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(6.5, 0, 0);
+	drawULetter();
+	glPopMatrix();
+}
+
+void drawALetter() {
+	// (/)
+	glColor3f(0, 0, 1);
+	glPushMatrix();
+	glRotatef(-90, 1, 0, 0);
+	glRotatef(35, 0, 1, 0);
+	gluCylinder(obj, 0.5, 0.5, 3, 4, 4);
+	glPopMatrix();
+
+	//(\)
+	glTranslatef(4, 0, 0);
+	glPushMatrix();
+	glRotatef(-90, 1, 0, 0);
+	glRotatef(-35, 0, 1, 0);
+	gluCylinder(obj, 0.5, 0.5, 3, 4, 4);
+	glPopMatrix();
+
+	//(-)
+	glTranslatef(-1.5, 2.5, 0);
+	glPushMatrix();
+	glRotatef(-90, 0, 1, 0);
+	gluCylinder(obj, 0.5, 0.5, 1, 4, 4);
+	glPopMatrix();
+
+
+	//(_)
+	glTranslatef(0.3, -1, 0);
+	glPushMatrix();
+	glRotatef(-90, 0, 1, 0);
+	gluCylinder(obj, 0.5, 0.5, 1.8, 4, 4);
+	glPopMatrix();
+
+
+}
+
+void drawILetter() {
+
+
+	glRotatef(-90, 1, 0, 0);
+	gluCylinder(obj, 0.5, 0.5, 3, 4, 4);
+
+}
+
+void drawULetter() {
+
+	// (|)
+	glPushMatrix();
+	glTranslatef(0, 0.1, 0);
+	glRotatef(-90, 1, 0, 0);
+	gluCylinder(obj, 0.5, 0.5, 3, 4, 4);
+	glPopMatrix();
+	
+
+	// (_)
+	glPushMatrix();
+	glTranslatef(0, 0.5, 0);
+	glRotatef(90, 0, 1, 0);
+	gluCylinder(obj, 0.5, 0.5, 1.5, 4, 4);
+	glPopMatrix();
+
+
+	// (|)
+	glPushMatrix();
+	glTranslatef(1.5, 0.1, 0);
+	glRotatef(-90, 1, 0, 0);
+	gluCylinder(obj, 0.5, 0.5, 3, 4, 4);
+	glPopMatrix();
+
+}
+
+void drawGate() {
+	glPushMatrix();
+	glTranslatef(0, 10, 0);
+	glScalef(2, 1, 0.1);
+	glutSolidCube(20);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-70, 10, 0);
+	glScalef(2, 1, 0.1);
+	glutSolidCube(20);
+	glPopMatrix();
 }
